@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class SettingsWindow<color> extends JFrame {
     private final int WIN_WIDTH = 350;
@@ -15,9 +13,8 @@ public class SettingsWindow<color> extends JFrame {
     private final int MAX_FIELD_SIZE = 6;
     private final int MIN_WIN_LENGTH = 3;
 
-
     private GameWindow gameWindow;
-    private SettingsColor settingsColor;
+    private SettingsColorFrame settingsColor;
 
     private JRadioButton humanVsHuman;
     private JRadioButton humanVsAi;
@@ -31,12 +28,9 @@ public class SettingsWindow<color> extends JFrame {
     private final String FIELD_SIZE_PREFIX = "Размер поля: ";
     private final String WIN_LENGTH_PREFIX = "Условие победы: ";
 
-     SettingsWindow(GameWindow gameWindow){
+    SettingsWindow(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
         setSize(WIN_WIDTH, WIN_HEIGHT);
-
-
-
 
         Rectangle gameWindowBounds = gameWindow.getBounds();
         int posX = (int) gameWindowBounds.getCenterX() - WIN_WIDTH / 2;
@@ -46,41 +40,29 @@ public class SettingsWindow<color> extends JFrame {
         setResizable(false);
         setTitle("Enter Your Settings New Game");
 
-        settingsColor = new SettingsColor(this);
+        settingsColor = new SettingsColorFrame(this);
 
-        setLayout(new GridLayout(11,1));
-
+        setLayout(new GridLayout(11, 1));
 
 
         gameModeControl();
         fieldSizeAndWinControl();
 
         butColor = new JButton("Selecting Field Color");
-        butColor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                settingsColor.setVisible(true);
-            }
-        });
+        butColor.addActionListener(e -> settingsColor.setVisible(true));
 
         add(butColor);
 
         butStart = new JButton("Start Game");
-        butStart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buttonClickMethod();
-            }
-        });
-
-
+        butStart.addActionListener(e -> buttonClickMethod());
 
 
         add(butStart);
 
 
     }
-    private void gameModeControl(){
+
+    private void gameModeControl() {
         add(new JLabel("Выберите режим игры"));
         humanVsHuman = new JRadioButton("2 PLAYERS");
         humanVsAi = new JRadioButton("1 PLAYERS", true);
@@ -92,7 +74,8 @@ public class SettingsWindow<color> extends JFrame {
         add(humanVsHuman);
 
     }
-    private void fieldSizeAndWinControl(){
+
+    private void fieldSizeAndWinControl() {
         JLabel labelFieldSize = new JLabel(FIELD_SIZE_PREFIX + MIN_FIELD_SIZE);
         JLabel labelWinLength = new JLabel(WIN_LENGTH_PREFIX + MIN_WIN_LENGTH);
 
@@ -107,12 +90,7 @@ public class SettingsWindow<color> extends JFrame {
         });
 
         sliderWinLength = new JSlider(MIN_WIN_LENGTH, MIN_FIELD_SIZE, MIN_FIELD_SIZE);
-        sliderWinLength.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                labelWinLength.setText(WIN_LENGTH_PREFIX + sliderWinLength.getValue());
-            }
-        });
+        sliderWinLength.addChangeListener(e -> labelWinLength.setText(WIN_LENGTH_PREFIX + sliderWinLength.getValue()));
 
 
         add(new JLabel("Выберите размер поля"));
@@ -125,25 +103,24 @@ public class SettingsWindow<color> extends JFrame {
 
     }
 
-    void colorButton(Color colorId){
+    void colorButton(Color colorId) {
         butColor.setBackground(colorId);
         colorMap = colorId;
     }
 
-    private void buttonClickMethod(){
+    private void buttonClickMethod() {
 
         int gameMode;
-        if(humanVsHuman.isSelected()){
+        if (humanVsHuman.isSelected()) {
             gameMode = GameMap.GAME_MODE_HVH;
-        }else if (humanVsAi.isSelected()){
+        } else if (humanVsAi.isSelected()) {
             gameMode = GameMap.GAME_MODE_HVA;
-        }else{
-        throw new RuntimeException("Неизвестный тип игры");
+        } else {
+            throw new RuntimeException("Неизвестный тип игры");
         }
 
         int fieldSize = sliderFieldSize.getValue();
         int winLength = sliderWinLength.getValue();
-
 
 
         gameWindow.startNewGame(gameMode, fieldSize, fieldSize, winLength, colorMap);

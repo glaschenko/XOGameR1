@@ -15,7 +15,7 @@ public class GameWindow extends JFrame {
     private GameMap gameMap;
 
 
-    GameWindow(){
+    GameWindow() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(WIN_WIDTH, WIN_HEIGHT);
         setLocation(WIN_POS_X, WIN_HJS_Y);
@@ -25,22 +25,14 @@ public class GameWindow extends JFrame {
         settingsWindow = new SettingsWindow(this);
         gameMap = new GameMap();
 
-
-
         JButton butStartGame = new JButton("Start New Game");
         butStartGame.addActionListener(e -> settingsWindow.setVisible(true));
 
         JButton butExitGame = new JButton("Exit");
-        butExitGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        butExitGame.addActionListener(e -> System.exit(0));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(1, 2));
-
 
         buttonPanel.add(butStartGame);
         buttonPanel.add(butExitGame);
@@ -50,11 +42,9 @@ public class GameWindow extends JFrame {
         setVisible(true);
     }
 
-    void startNewGame (int gameMode, int fieldSizeX, int fieldSizeY, int winLength, Color colorMap){
-    gameMap.start(gameMode, fieldSizeX, fieldSizeY, winLength, colorMap);
+    void startNewGame(int gameMode, int fieldSizeX, int fieldSizeY, int winLength, Color colorMap) {
+        gameMap.start(gameMode, fieldSizeX, fieldSizeY, winLength, colorMap);
     }
-
-
 
 
 }

@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SettingsColor extends JFrame {
+public class SettingsColorFrame extends JFrame {
 
     private final int COLOR_WIDTH = 350;
     private final int COLOR_HEIGHT = 300;
@@ -15,7 +15,7 @@ public class SettingsColor extends JFrame {
 
     private SettingsWindow settingsWindow;
 
-    SettingsColor(SettingsWindow settingsWindow){
+    SettingsColorFrame(SettingsWindow settingsWindow){
         this.settingsWindow = settingsWindow;
         setSize(COLOR_WIDTH, COLOR_HEIGHT);
 
